@@ -59,3 +59,8 @@ add_executable(StatusSwift teststatus.swift
     ${PROJECT_SOURCE_DIR}/src/status.swift
 )
 add_test(NAME StatusSwift COMMAND StatusSwift)
+
+add_executable(SecureInputSwift testsecure.swift
+    ${PROJECT_SOURCE_DIR}/src/secure.swift
+)
+add_test(NAME SecureInputSwift COMMAND SecureInputSwift)

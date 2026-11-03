@@ -81,7 +81,10 @@ class FcitxInputController: IMKInputController {
     if !IsSecureEventInputEnabled() {
       return false
     }
-    if isOnFocus {
+    // Edge can leave Secure Input enabled after leaving a password field.
+    // Refresh its owner on each event, including when IMK omits activateServer.
+    let checkFocusedField = appId == "com.microsoft.edgemac"
+    if isOnFocus || checkFocusedField {
       let pid = getSecureInputProcessPID()
       let runningApp = pid == nil ? nil : NSRunningApplication(processIdentifier: pid!)
       obeySecureInput = runningApp?.bundleIdentifier == appId
@@ -94,8 +97,11 @@ class FcitxInputController: IMKInputController {
         )
       }
     }
-    // On keyDown, don't call getSecureInputProcessPID for performance.
-    return obeySecureInput
+    let fieldKind: FocusedTextFieldKind =
+      checkFocusedField && obeySecureInput ? focusedTextFieldKind(in: appId) : .unknown
+    return passwordModeRequired(
+      passwordOnlyApp: isPasswordOnlyApp, secureInputEnabled: true,
+      secureInputOwnedByClient: obeySecureInput, focusedTextField: fieldKind)
   }
 
   func processKey(_ unicode: UInt32, _ modsVal: UInt32, _ code: UInt16, _ isRelease: Bool) -> Bool {

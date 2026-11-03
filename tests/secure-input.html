@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Fcitx5 secure input regression</title>
+<style>
+  body { font: 18px system-ui; margin: 40px; }
+  label { display: block; margin-top: 24px; }
+  input, textarea { display: block; font: inherit; width: 400px; padding: 8px; }
+</style>
+<h1>Local secure input regression</h1>
+<p>This page has no scripts, forms, or network requests. Use dummy input only.</p>
+<label for="plain">Plain input</label>
+<input id="plain" type="text" autocomplete="off">
+<label for="password">Password input</label>
+<input id="password" type="password" autocomplete="off">
+<label for="multiline">Multiline input</label>
+<textarea id="multiline"></textarea>
+<label for="search">Search input</label>
+<input id="search" type="search" autocomplete="off">
